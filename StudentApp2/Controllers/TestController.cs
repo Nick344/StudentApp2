@@ -2,13 +2,12 @@
 
 namespace StudentApp2.Controllers
 {
+    [Route("api/test")]
+    [ApiController]
     public class TestController : ControllerBase
     {
-
-        [HttpGet("throw")]
-        public IActionResult ThrowError()
-        {
-            throw new Exception("Test exception");
-        }
+        [HttpGet]
+        public IActionResult Ping() => Ok("pong");
     }
+
 }

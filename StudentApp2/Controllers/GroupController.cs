@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data;
 using Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ namespace StudentApp2.Controllers
             return NoContent();
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(GroupModel), 200)]
         [ProducesResponseType(typeof(string), 404)]
         [ProducesResponseType(typeof(string), 400)]

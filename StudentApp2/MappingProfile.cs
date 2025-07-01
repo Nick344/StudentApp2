@@ -11,8 +11,8 @@ namespace StudentApp2
 
             CreateMap<Student, StudentModel>().ReverseMap();
             CreateMap<CreateStudentModel, Student>();
-            CreateMap<Data.Models.Group, GroupModel>().ReverseMap();
-            CreateMap<CreateGroupModel, Data.Models.Group>();
+            CreateMap<Group, GroupModel>().ReverseMap();
+            CreateMap<CreateGroupModel,Group>();
         }
     }
 }

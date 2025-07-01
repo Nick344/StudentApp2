@@ -15,5 +15,7 @@ namespace Service
         Task<StudentModel> UpdateStudent (int id ,CreateStudentModel student);
         Task DeleteStudent (int id);
         Task<StudentModel> CreateStudent(CreateStudentModel model);
+        Task<List<StudentModel>> GetAllStudents();
+        string GetCurrentUserId();
     }
 }

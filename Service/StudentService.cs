@@ -9,6 +9,8 @@ using Models;
 using Microsoft.EntityFrameworkCore.Metadata;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Service
 {
@@ -17,10 +19,18 @@ namespace Service
 
         private readonly UniversityDbContext _context;
         private readonly IMapper _mapper;
-        public StudentService(UniversityDbContext context, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public StudentService(UniversityDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public string GetCurrentUserId()
+        {
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue("UserId"); ;
+            return userId;
         }
 
         public async Task<StudentModel> GetStudentsById(int id)
@@ -47,6 +57,19 @@ namespace Service
                 };
                 return studentModel;
             }
+        }
+
+        public async Task<List<StudentModel>> GetAllStudents()
+        {
+            var students = await _context.Student.Include(x => x.Group).ToListAsync();
+
+            if (students == null || !students.Any())
+            {
+                throw new KeyNotFoundException("No students found");
+            }
+
+            var studentModels = _mapper.Map<List<StudentModel>>(students);
+            return studentModels;
         }
 
         public async Task<StudentModel> UpdateStudent(int id,CreateStudentModel model)

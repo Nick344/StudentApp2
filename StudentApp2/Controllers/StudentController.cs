@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data;
 using Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -20,6 +21,11 @@ namespace StudentApp2.Controllers
         {
             this.studentService = studentService;
         }
+
+
+   
+
+
         [HttpPut("id")]
         [ProducesResponseType(typeof(StudentModel), 200)]
         [ProducesResponseType(typeof(string), 404)]
@@ -42,6 +48,10 @@ namespace StudentApp2.Controllers
                 return BadRequest(ModelState);
             }
 
+            /*var userId = studentService.GetCurrentUserId();
+
+            model.UserId = userId;*/
+
             var createdStudent = await studentService.CreateStudent(model);
 
             return StatusCode(201, createdStudent);
@@ -62,6 +72,26 @@ namespace StudentApp2.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(StudentModel), 200)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(string), 400)]
+        public async Task<IActionResult> GetAllStudent()
+        {
+            try
+            {
+                var students = await studentService.GetAllStudents();
+                return Ok(students);
+            }
+
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+
+            
         }
 
         [HttpDelete]

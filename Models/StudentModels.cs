@@ -34,6 +34,7 @@ namespace Models
         public string Name { get; set; }
         public int Age { get; set; }
         public int GroupId { get; set; }
+        /*public string UserId { get; set; }*/
     }
 
     public class UpdateStudentModel : CreateStudentModel
